@@ -5,21 +5,14 @@ pipeline {
     
     stage('Verify') {
       steps {
-        withCredentials([usernamePassword(
-        credentialsId: 'github-publish-maven', 
-        passwordVariable: 'MVN_PASSWORD', 
-        usernameVariable: 'MVN_USERNAME')]) {
-
           withMaven(mavenSettingsFilePath: 'settings.xml') {
             sh """
               mvn verify \
                   -Drepo.id=github \
-                  -Drepo.login=${MVN_USERNAME} \
-                  -Drepo.pwd=${MVN_PASSWORD} \
                   -Drevision=1.${BUILD_NUMBER}
             """
           }  
-        }
+        
       }
     } // Publish
 
